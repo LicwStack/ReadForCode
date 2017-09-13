@@ -1,0 +1,109 @@
+All Algorithms implemented in Python.
+在Python中实现的所以算法。
+
+These are for demonstration purposes only.
+这些仅仅为了示范的目的。
+这些只是为了演示目的。
+这些仅用于演示目的。
+
+There are many implementations of sorts in the Python standard library that are much better for performance reasons.
+这有许多为了更好的性能原因，使用Python标准库实现的排序算法。
+在Python标准库中有许多类型的实现，出于性能原因而更好。
+使用Python标准库实现的排序，出于性能原因而更好。
+
+From Wikipedia:Bubble sort,sometimes referred to as sinking sort,is a simple sorting algorithm that repeatedly steps through the list to be sorted,compares each pair of adjacent items and swaps them if they are in the wrong order.
+来自维基百科：冒泡排序，经常重定向为sinking sort，是一种简单的排序算法，它重复走访需要排序的数列，比较相邻元素的大小，如果它们的顺序错误就把它们交换过来。
+来自维基百科：冒泡排序，有时被称为下沉排序，是一种简单的排序算法，它重复走访需要排序的列表，并对每对相邻的项进行比较，如果顺序不正确，就交换它们。
+
+The pass through the list is repeated until no swaps are needed,which indicates that list is sorted.
+重复通过列表，直到不需要交换，这表明列表已排序。
+重复整个列表，直到不需要交换，这表明列表已排序。
+
+From Wikipedia:Insertion sort is a simple sorting algorithm that builds the final sortd array(or list)one item at a time.
+来自维基百科：插入排序是一种简单的排序算法，它每次构建一个最终排序的数组（或列表）。
+
+It is much less efficient on large lists than more advanced algorithms such as quicksort,heapsort,or merge sort.
+对比像诸如快速排序，堆排序，或者合并排序在这些高级算法中，对于大型列表，拥有较低的效率。
+对于大型列表而言，比诸如快速排序，堆排序或合并排序之类的更高级的算法效率要低的多。
+
+In computer science,merge sort(also commonly spelled mergesort)is an efficient,general-purpose,comparison-based sorting algorithm.
+在计算机科学中，合并排序是一种高效，通用，基于比较的排序算法。
+
+Most implementations produce a stable sort,which means that the implementation preserves the input order of equal elements in the sorted output.
+大多数实现都生成一个稳定的排序，这意味着实现在排序的输出中保留了相等元素的输入顺序。
+
+Mergesort is a divide and conquer algorithm that was invented byJohn von Neumann in 1945.
+归并排序是由约翰冯诺依曼在1945年发明的一种分治算法。
+
+Quicksort(sometimes called partition-exchange sort)is an efficient sorting algorithm,serving as a systematic method for placing the elements of an array in order.
+快速排序（也被称作分区交换排序）是一种高效的排序算法，是一种将数组元素按顺序放置的系统方法。
+
+The algorithm divides the input list into two parts:the sublist of items already sorted,which is built up from left to right at the front(left)of the list,and the sublist of items remaining to be sorted that occupy the rest of the list.
+该算法将输入列表分成两个部分：已排序项的子列表,从左到右在列表的前面（左）构建，待排序项的子列表占据列表的剩余部分。
+
+Initially,the sorted sublist is empty and the unsorted sublist is the entire input list.
+最初，已排序的子列表是空的，未排序的列表是整个输入的列表。
+
+The algorithm proceeds by finding the smallest(or largest,depending on sorting order)element in the unsorted sublist,exchanging(swapping)it with the leftmost unsorted element(putting it in sorted order),and moving the sublist boundaries one element to the right.
+该算法在未排序的子列表中找到最小的（或最大的，取决于排序规则）元素，交换它与最左边的未排序的元素（将其放入排序的顺序），并将子列表的边界移动到右边一个元素.
+
+Shellsort is a generalization of insertion sort that allows the exchange of items that are far apart.
+希尔排序是一种对插入排序的泛化，它允许交换相距很远的项。
+
+The idea is to arrange the list of elements so that,starting anywhere,considering every nth element gives a sorted list.
+这个想法是排列元素列表，以便从任何地方开始，考虑每个第n个元素给出排序列表。
+
+Such a list is said to be h-sorted.
+这样的列表被认为是h排序的。
+
+Equivalently,it can be thought of as h interleaved lists,each individually sorted.
+等价地，它可以被认为是h交错列表，每个单独排序。
+
+linear search or sequential search is a method for finding a target value within a list.
+线性搜索或顺序搜索是在列表中查找目标值的方法。
+
+It sequentially checks each element of the list for the target value until a match is found or until all the elements have been searched.
+它顺序核对列表的每一个元素，直到匹配到目标值，或者所有的元素被搜索完。
+它会依次检查目标值的每一个元素，直到找到匹配的对象，或者直到所有的元素都被搜索。
+
+Linear search runs in at worst linear time and makes at most n comparisons,where n is the length of the list.
+线性搜索是在最差的线性时间里运行，最多进行n次比较，其中n是列表的长度。
+
+Binary search, also known as half-interval search or logarithmic search,is a search algorithm that finds the position of a target value within a sorted array.
+二分法检索，又称折半检索或者对数搜索，是一种在已排序数组中查找目标值位置的查找算法。
+二分法检索，又称折半检索或者对数搜索，是一种搜索算法，它可以在一个排序的数组中找到目标值的位置。
+
+It compares the the target value to the middle element of the array;
+它将目标值与数组的中间元素进行比较。
+
+If they are unequal,the half in which the target cannot lie is eliminated and the search continues on the remaining half until it is successful.
+如果它们不相等，那么目标不能撒谎的一般就被消除，在剩下的一般中继续搜索，直到成功。
+
+In cryptography,a Caesar cipher,also known as Caesar's cipher,the shift cipher,Caesar's code or Caesar shift,is one of the simplest and most widely known encryption techniques.
+在密码学，凯撒密码，也被成为凯撒的密码，转移密码，凯撒的代码或凯撒转移，是最简单和最广泛的已知的加密技术之一。
+
+It is a type of substitution cipher in which each letter in the plaintext is replaced by a letter some fixed number of positions down the alphabet.
+它是替换密码的一种类型，其中的每个字母在明文中被字母替换为字母的固定数量的位置。
+它是一种替换密码，其中明文中的每个字母被字母表中的一些固定数量的字母替换。
+
+For example,with a left shift of 3,D would be replaced by A,E would become B,and so on.
+举个例子，左移三位，D将会被A取代，E将会变成B等等。
+例如，当左移3位，D就会被A取代，E会变成B，以此类推。
+
+The method is named after Julius Caesar,who used it in his private correspondence.
+这个方法是以朱利叶斯凯撒的名字命名的，他在私人通信中使用了这个方法。
+
+The encryption step performed by a Caesar cipher is often incorporatd as part of more complex schemes,such as the Vigenère cipher,and still has modern application in the ROT13 system.
+凯撒密码执行的加密步骤通常被合并为更复杂的方案的一部分，如维吉尼亚密码，并且在ROT13系统中仍然具有现代应用。
+
+As with all single-alphabet substitution ciphers,the Caesar cipher is easily broken and in modern practice offers essentially no communication security.
+与所有的单字母替换密码机一样，凯撒密码很容易被破解，而在现代实践中，基本上没有通信安全。
+
+In cryptography,a transposition cipher is a method of encryption by which the position held by units of plaintext(which are commonly characters or groups of characters)are shifted according to a regular system,so that the ciphertext constitutes a permutation of the plaintext.
+在密码学中，转位密码是一种加密方法，由明文（通常是字符或一组字符）的单位所持有的位置根据一个规则系统进行位移，从而使密码构成了明文的排序。
+
+That is,the order of the units is changed(the plaintext is reordered).
+也就是说，单元的顺序发生了变化（明文是重新排序的）。
+
+Mathematically a bijective function is used on the characters' positions to encrypt and an inverse function to decrypt.
+从数学上讲，在字符的位置上使用双射函数进行加密，并使用反函数进行解密。
