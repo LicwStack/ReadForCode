@@ -107,3 +107,10 @@ That is,the order of the units is changed(the plaintext is reordered).
 
 Mathematically a bijective function is used on the characters' positions to encrypt and an inverse function to decrypt.
 从数学上讲，在字符的位置上使用双射函数进行加密，并使用反函数进行解密。
+
+Bootstrap-datepicker provides a flexible datepicker widget in the Bootstrap style.
+Bootstrap-datepicker提供了一种灵活的Bootstrap风格的datepicker组件。
+Bootstrap-datepicker提供了一个灵活的Bootstrap风格的datepicker小部件。
+
+Versions are incremented according to semver.
+版本号通过semver方式递增。 
