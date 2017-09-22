@@ -114,3 +114,34 @@ Bootstrap-datepicker提供了一个灵活的Bootstrap风格的datepicker小部�
 
 Versions are incremented according to semver.
 版本号通过semver方式递增。 
+
+synopsis of the week's news
+一周新闻概括
+
+see also
+参见
+
+This part of the documentation covers all the interfaces of Requests.
+该部分文档涵盖Requests的所有接口。
+
+For parts where Requests depends on external libraries,we document the most important right here and provide links to the canonical documentation.
+对于Requests依赖于外部库的部分，我们在这里记录最重要的部分，并提供与规范文档相关的链接。
+
+One year like any old other year
+最是普通的一年
+
+In a week like any week
+最是普通的一周
+
+Monday lying down
+周一姗姗来迟
+
+Half Asleep
+半睡半醒之间
+
+People doing what people do
+人们各司其职
+
+Loving,working and getting through
+相爱，工作，经历一切 
+
