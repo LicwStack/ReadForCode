@@ -1,15 +1,15 @@
 using System;
 
-namespace ConsoleApplication1
+namespace ConsoleApplication
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
-            double x = 198103423.23234;
-            int y = (int)x;
+            const double x = 198103423.23234;
+            const int y = (int)x;
             Console.WriteLine(y);
-            int z = Convert.ToInt32(x);
+            var z = Convert.ToInt32(x);
             Console.WriteLine(z);
             Console.ReadLine();
         }

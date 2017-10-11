@@ -1,13 +1,13 @@
 ﻿using System;
 using N1;
 
-namespace Test02
+namespace N
 {
-    class Program
+    internal class Program
     {
-        static void main(string[] args)
+        private static void Main()
         {
-            A oa = new A();
+            var oa = new A();
             oa.Myls();
         }
     }
@@ -15,7 +15,7 @@ namespace Test02
 
 namespace N1
 {
-    class A
+    internal class A
     {
         public void Myls()
         {

@@ -1,32 +1,32 @@
 using System;
 
-namespace ConsoleApplication1
+namespace ConsoleApplication
 {
-    class Program
+    internal class Program
     {
         public struct Rect
         {
-            public double width;
-            public double height;
+            public double Width;
+            public double Height;
             public Rect(double x, double y)
             {
-                width = x;
-                height = y;
+                Width = x;
+                Height = y;
             }
 
             public double Area()
             {
-                return width * height;
+                return Width * Height;
             }
         }
 
-        static void Main(string[] args)
+        private static void Main()
         {
             Rect rect1;
-            rect1.width = 5;
-            rect1.height = 3;
-            Console.WriteLine("rect1's Area:"+ rect1.Area());
-            Rect rect2 = new Rect(6, 4);
+            rect1.Width = 5;
+            rect1.Height = 3;
+            Console.WriteLine("rect1's Area:" + rect1.Area());
+            var rect2 = new Rect(6, 4);
             Console.WriteLine("rect2's Area:" + rect2.Area());
             Console.ReadLine();
         }

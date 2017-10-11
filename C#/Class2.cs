@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace ConsoleApplication1
+namespace ConsoleApplication
 {
-    class Class2
+    internal class Class2
     {
-        static void main(string[] args)
+        private static void Main()
         {
-            int ls = 927;
-            byte shj = 255;
+            const int ls = 927;
+            const byte shj = 255;
             Console.WriteLine("ls={0}", ls);
             Console.WriteLine("shj={0}", shj);
             Console.ReadLine();

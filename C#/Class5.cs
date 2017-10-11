@@ -1,10 +1,10 @@
 using System;
 
-namespace ConsoleApplication1
+namespace ConsoleApplication
 {
-    class Program
+    internal class Program
     {
-        enum MyDate 
+        private enum MyDate
         {
             Sun = 0,
             Mon = 1,
@@ -14,9 +14,9 @@ namespace ConsoleApplication1
             Fri = 5,
             Sat = 6
         }
-        static void Main(string[] args)
+        private static void Main()
         {
-            int k = (int)DateTime.Now.DayOfWeek;
+            var k = (int)DateTime.Now.DayOfWeek;
             switch (k)
             {
                 case (int)MyDate.Sun: Console.WriteLine("Today is Sunday"); break;
@@ -26,6 +26,7 @@ namespace ConsoleApplication1
                 case (int)MyDate.Thi: Console.WriteLine("Today is Thursday"); break;
                 case (int)MyDate.Fri: Console.WriteLine("Today is Friday"); break;
                 case (int)MyDate.Sat: Console.WriteLine("Today is Saturday"); break;
+                default: Console.WriteLine("Error"); break;
             }
             Console.ReadLine();
         }
