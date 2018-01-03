@@ -1,0 +1,4 @@
+C:\Users\Administrator\Desktop\TEMP\SocketServer\SocketServer\bin\Debug\SocketServer.exe
+C:\Users\Administrator\Desktop\TEMP\SocketServer\SocketServer\bin\Debug\SocketServer.pdb
+C:\Users\Administrator\Desktop\TEMP\SocketServer\SocketServer\obj\x86\Debug\SocketServer.exe
+C:\Users\Administrator\Desktop\TEMP\SocketServer\SocketServer\obj\x86\Debug\SocketServer.pdb

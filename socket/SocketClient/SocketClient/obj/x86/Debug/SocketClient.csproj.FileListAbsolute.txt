@@ -1,0 +1,4 @@
+C:\Users\Administrator\Desktop\TEMP\SocketClient\SocketClient\bin\Debug\SocketClient.exe
+C:\Users\Administrator\Desktop\TEMP\SocketClient\SocketClient\bin\Debug\SocketClient.pdb
+C:\Users\Administrator\Desktop\TEMP\SocketClient\SocketClient\obj\x86\Debug\SocketClient.exe
+C:\Users\Administrator\Desktop\TEMP\SocketClient\SocketClient\obj\x86\Debug\SocketClient.pdb

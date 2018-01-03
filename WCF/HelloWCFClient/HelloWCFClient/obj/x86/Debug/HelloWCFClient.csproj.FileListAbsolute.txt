@@ -1,0 +1,5 @@
+C:\Users\Administrator\Desktop\TEMP\HelloWCFClient\HelloWCFClient\bin\Debug\HelloWCFClient.exe.config
+C:\Users\Administrator\Desktop\TEMP\HelloWCFClient\HelloWCFClient\bin\Debug\HelloWCFClient.exe
+C:\Users\Administrator\Desktop\TEMP\HelloWCFClient\HelloWCFClient\bin\Debug\HelloWCFClient.pdb
+C:\Users\Administrator\Desktop\TEMP\HelloWCFClient\HelloWCFClient\obj\x86\Debug\HelloWCFClient.exe
+C:\Users\Administrator\Desktop\TEMP\HelloWCFClient\HelloWCFClient\obj\x86\Debug\HelloWCFClient.pdb

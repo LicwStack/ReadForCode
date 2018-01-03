@@ -1,0 +1,77 @@
+declare 
+	@floor varchar(50),
+	@linenum varchar(50),
+	@devno varchar(50),
+	@billid varchar(50),
+	@workdate varchar(50),
+	@employeeid varchar(50),
+	@workteam varchar(50),
+	@devtype varchar(50),
+	@productid varchar(50),
+	@okamountcnt int,
+    @ngamountcnt int,
+    @lngcnt int,
+    @vngcnt int;
+
+set @billid = '0000000';
+set @floor='3';
+set @linenum = '4';
+set @devno = '3';
+set @workdate='2017-12-06';
+set @employeeid='p1707040';
+set @workteam = '1组';
+set @devtype = '点胶机';
+set @productid = '761436';
+set @okamountcnt = 1602; 
+set @ngamountcnt = 0;
+set @lngcnt = 0;
+set @vngcnt = 0;
+
+
+--设置默认值
+declare @_okamountcnt int,
+        @_ngamountcnt int,
+        @_lngcnt int,
+        @_vngcnt int;
+        
+set @_okamountcnt = 0; 
+set @_ngamountcnt = 0;
+set @_lngcnt = 0;
+set @_vngcnt = 0;
+
+--查询上次更新数据
+if exists (select  top(1) okamountcnt,ngamountcnt,lngcnt,vngcnt from tb_workstatistic where billid=@billid and floor=@floor and linenum = @linenum and devno = @devno and workdate=@workdate order by okamountcnt desc,ngamountcnt desc)
+	select  top(1) @_okamountcnt=okamountcnt,@_ngamountcnt=ngamountcnt,@_lngcnt=lngcnt,@_vngcnt=vngcnt from tb_workstatistic where billid=@billid and floor=@floor and linenum = @linenum and devno = @devno and workdate=@workdate order by okamountcnt desc,ngamountcnt desc
+
+--输出数据验证	
+print @okamountcnt - @_okamountcnt
+print @ngamountcnt - @_ngamountcnt
+print @lngcnt - @_lngcnt
+print @vngcnt - @_vngcnt
+
+
+declare @tmp_okamountcnt int,
+        @tmp_ngamountcnt int,
+        @tmp_lngcnt int,
+        @tmp_vngcnt int;
+
+--查询表数据是否存在
+if exists (select okamountcnt,ngamountcnt,lngcnt,vngcnt from tb_oneworkstatistic where billid=@billid and floor=@floor and linenum = @linenum and devno = @devno and workdate=@workdate and employeeid=@employeeid and workteam=@workteam)
+	begin
+	select  @tmp_okamountcnt=okamountcnt,@tmp_ngamountcnt=ngamountcnt,@tmp_lngcnt=lngcnt,@tmp_vngcnt=vngcnt from tb_workstatistic where billid=@billid and floor=@floor and linenum = @linenum and devno = @devno and workdate=@workdate and employeeid=@employeeid and workteam=@workteam
+	
+	--输出数据验证
+	print '分表数据存在执行更新...'
+	print @okamountcnt - @_okamountcnt + @tmp_okamountcnt
+	print @ngamountcnt - @_ngamountcnt + @tmp_ngamountcnt
+	print @lngcnt - @_lngcnt + @tmp_lngcnt
+	print @vngcnt - @_vngcnt + @tmp_vngcnt
+
+	update tb_oneworkstatistic set okamountcnt = @okamountcnt - @_okamountcnt + @tmp_okamountcnt,ngamountcnt=@ngamountcnt - @_ngamountcnt + @tmp_ngamountcnt,lngcnt=@lngcnt - @_lngcnt + @tmp_lngcnt,vngcnt=@vngcnt - @_vngcnt + @tmp_vngcnt where billid=@billid and floor=@floor and linenum = @linenum and devno = @devno and workdate=@workdate and employeeid=@employeeid and workteam=@workteam
+end
+else
+	begin
+	print '分表数据不存在执行插入...'
+	INSERT INTO tb_oneworkstatistic (linenum,devno,workdate,productid,employeeid,billid,devtype,okamountcnt,ngamountcnt,workteam,lngcnt,vngcnt,floor) VALUES 
+	(@linenum,@devno,@workdate,@productid,@employeeid,@billid,@devtype,@okamountcnt - @_okamountcnt,@ngamountcnt - @_ngamountcnt,@workteam,@lngcnt - @_lngcnt,@vngcnt - @_vngcnt,@floor)
+	end

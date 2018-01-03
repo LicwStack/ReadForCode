@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="canonical" href="http://blog.csdn.net/songyefei/article/details/7381595"/> 
+    <script type="text/javascript">
+        var username = "songyefei";
+        var _blogger = username;
+        var blog_address = "http://blog.csdn.net/songyefei";
+        var static_host = "http://csdnimg.cn/release/phoenix/";
+        var currentUserName = ""; 
+        var fileName = '7381595';
+        var commentscount = 11;
+        var islock = false
+        window.quickReplyflag = true;
+        var totalFloor = 10;
+        var isBole = false;
+        var isDigg = false;
+        var isExpert=false;
+        var isAdm = false;
+    </script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <script src="http://c.csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="http://c.csdnimg.cn/public/common/libs/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://c.csdnimg.cn/public/static/css/avatar.css">
+    <link rel="stylesheet" href="http://csdnimg.cn/release/phoenix/production/main-f7fb2ae533.css">
+    <link rel="stylesheet" href="http://c.csdnimg.cn/public/common/toolbar/content_toolbar_css/content_toolbar.css">
+
+    <script src="http://csdnimg.cn/rabbit/exposure-click/main-1.0.5.js"></script>
+    <script type="text/javascript" src="http://csdnimg.cn/pubfooter/js/tracking-1.0.2.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://csdnimg.cn/release/phoenix/production/main-a1fde30bcd.js"></script>
+
+    <script src="http://dup.baidustatic.com/js/ds.js"></script>
+    <script type="text/javascript">
+        // Traffic Stats of the entire Web site By baidu
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?6bcd52f51e9b3dce32bec4a3997715ac";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+        // Traffic Stats of the entire Web site By baidu end
+    </script>
+    <meta name="description" content="老老实实学WCF
+第三篇 在IIS中寄宿服务
+ 
+通过前两篇的学习，我们了解了如何搭建一个最简单的WCF通信模型，包括定义和实现服务协定、配置服务、寄宿服务、通过添加服务引用的方式配置客户端并访问服务。我们对WCF的编程生命周期有了一个最基本的了解。
+ 
+在前两篇中演示的例子，一定要力求背着做下来，包括源程序、配置文件都要背着一行行的手写下来，这样才能有深刻的体会。WCF的知识零散复杂，" />
+    <meta name="keywords" content="iis,wcf" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <title>[老老实实学WCF] 第三篇 在IIS中寄存服务 - CSDN博客</title>
+    <link href="http://csdnimg.cn/public/favicon.ico" rel="SHORTCUT ICON">
+</head>
+<body>
+<script id="toolbar-tpl-scriptId" prod="download" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/content_toolbar.js" type="text/javascript" domain="http://blog.csdn.net/"></script>
+<div class="container clearfix">
+  <main>
+    <article>
+        <h1 class="csdn_top">[老老实实学WCF] 第三篇 在IIS中寄存服务</h1>
+        <div class="article_bar clearfix">
+            <div class="artical_tag">
+                <span class="original">
+                原创                </span>
+                <span class="time">2012年03月22日 08:59:11</span>
+            </div>
+
+            <ul class="article_tags clearfix csdn-tracking-statistics tracking-click" data-mod="popu_377" >
+                <li class="tit">标签：</li>
+
+<!--          [startarticletags]-->
+                                                            <li><a href="http://so.csdn.net/so/search/s.do?q=iis&t=blog" target="_blank">iis</a> <span>/</span></li>
+                                            <li><a href="http://so.csdn.net/so/search/s.do?q=wcf&t=blog" target="_blank">wcf</a> <span>/</span></li>
+                                            <li><a href="http://so.csdn.net/so/search/s.do?q=windows&t=blog" target="_blank">windows</a> <span>/</span></li>
+                                            <li><a href="http://so.csdn.net/so/search/s.do?q=service&t=blog" target="_blank">service</a> <span>/</span></li>
+                                            <li><a href="http://so.csdn.net/so/search/s.do?q=binding&t=blog" target="_blank">binding</a> <span>/</span></li>
+                                            <li><a href="http://so.csdn.net/so/search/s.do?q=c#&t=blog" target="_blank">c#</a> <span>/</span></li>
+                                    <!--          [endarticletags]-->
+            </ul>
+            <ul class="right_bar">
+                <li><button class="btn-noborder"><i class="icon iconfont icon-read"></i><span class="txt">12637</span></button></li>
+                <li class="edit">
+                    <a class="btn-noborder" href="" >
+                        <i class="icon iconfont icon-bianji"></i><span class="txt">编辑</span>
+                    </a>
+                </li>
+                <li class="del">
+                    <a class="btn-noborder" onclick="javascript:deleteArticle(fileName);return false;">
+                        <i class="icon iconfont icon-shanchu"></i><span class="txt">删除</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="article_content" class="article_content csdn-tracking-statistics tracking-click" data-mod="popu_519" data-dsm="post">
+                        
+<p><span style="font-family:'Microsoft YaHei';font-size:24px;">老老实实学WCF</span></p>
+<p><span style="font-family:'Microsoft YaHei';font-size:18px;">第三篇 在IIS中寄宿服务</span></p>
+<p> </p>
+<p>通过前两篇的学习，我们了解了如何搭建一个最简单的WCF通信模型，包括定义和实现服务协定、配置服务、寄宿服务、通过添加服务引用的方式配置客户端并访问服务。我们对WCF的编程生命周期有了一个最基本的了解。</p>
+<p> </p>
+<p>在前两篇中演示的例子，一定要力求背着做下来，包括源程序、配置文件都要背着一行行的手写下来，这样才能有深刻的体会。WCF的知识零散复杂，必须扎扎实实的学习和练习。如果你还没有做到了然于胸，现在赶紧翻回去把例子再做一遍。</p>
+<p> </p>
+<p>今天让我们稍微深入一点，了解一些关于寄宿的新知识：在IIS中寄宿服务。</p>
+<p> </p>
+<p>在前两篇的例子中，我们建立了一个控制台应用程序来作为服务的宿主，这种寄宿方式叫做"自托管"，即WCF服务和应用程序是一体的。这种寄宿方式有一些优点，他需要最少的框架支持(只需要一个控制台应用程序就可以了，随处建立，随处运行)，因此配置和使用都是最简单的，此外通过控制台程序还可以对WCF服务运行中发生的错误进行监视，在开发服务阶段，这种方式能提供调试的便利。</p>
+<p> </p>
+<p>然而，如果作为最终产品部署，自托管的寄宿方式就不那么合适，应用程序相比框架(IIS、Windows服务等)是不稳定的，WCF与应用程序共享生命周期，应用程序关闭后WCF也会停止。还有许多特性诸如进程回收、空闲关闭等自托管都是不支持的。因此，为了使我们的WCF符合产品级别的要求，应该为其选择一个更稳定、伸缩性更好的宿主。</p>
+<p> </p>
+<p>除了自托管，WCF还可以寄宿于IIS、Windows服务、Windows进程激活服务(WAS)中。比较流行的是在IIS和Windows进程激活服务寄宿。</p>
+<p> </p>
+<p>在IIS中寄宿，需要IIS5.1或更高版本的支持，IIS会为我们管理ServiceHost(还记得他吗，看第一篇中的代码)，同时为我们提供进程回收、空闲关闭、进程运行状况监视等特性支持，我们只需要把服务相关的文件按照一定的组织方法放入IIS的托管中(就像建立一个网站应用程序或虚拟目录)，IIS会为我们管理一切。这种托管受到支持的系统很多，从Windows XP SP2 到 WIndows Server 2008，所以它非常流行。然而他也有缺点，它只能接受http协议的绑定，对于tcp、管道、MSMQ都是不支持的。</p>
+<p> </p>
+<p>从IIS7开始，提供了所谓Windows进程激活服务(WAS) 的功能，如果把WCF寄存在WAS中，就可以支持所有的绑定协议(TCP等)，像MSMQ这样的协议，在内网和.Net编程模型下有很大的性能优势，因此WAS应该会成为未来WCF寄宿的主要方式，但是IIS7要求Windows Vista以上版本的系统才能支持，他的普及可能尚需时日吧。</p>
+<p> </p>
+<p>我们今天先学习在IIS中寄宿，记住，IIS寄宿只支持http协议的绑定。</p>
+<p> </p>
+<p>实验环境在说明一下：</p>
+<p>Windows 7 家庭高级版 SP1</p>
+<p>IIS7</p>
+<p>Visual Studio 2010 旗舰版 SP1</p>
+<p> </p>
+<p>老老实实的学习，我们今天不借助IDE帮助建立的项目，完全手写一个寄宿于IIS的服务。</p>
+<p> </p>
+<p>1. 为IIS应用建立物理位置</p>
+<blockquote dir="ltr" style="margin-right:0px;">
+<p>IIS应用程序需要映射到本地驱动器的一个物理路径上，我们先把它建好。</p>
+<p>我把这个文件夹建立在了C:\WCF\下，取名为IISService。(HelloWCF是我们在前两篇中建立的，还记得么)</p>
+<p> <img alt="" src="http://y.photo.qq.com/img?s=YzZMureoV&amp;l=y.jpg" /></p>
+<p> </p>
+</blockquote>
+<p dir="ltr">2. 建立IIS应用程序</p>
+<blockquote dir="ltr" style="margin-right:0px;">
+<p> 物理路径建好了，现在我们在这个位置上建立一个应用程序。点击开始-&gt;控制面板，在项目中找到管理工具，然后打开IIS。</p>
+<p><img alt="" src="http://y.photo.qq.com/img?s=zx2CNtxO4&amp;l=y.jpg" /></p>
+<p> </p>
+<p>展开左边的节点，在默认网站节点上点击右键，选择“添加应用程序”</p>
+<p><img alt="" src="http://y.photo.qq.com/img?s=BhUN9tljg&amp;l=y.jpg" /></p>
+<p> </p>
+<p>为应用程序指定一个别名，这个可以随意起的，这个名字将成为将来服务地址的一部分，我把它起作IISService，物理路径就选择我们刚才建立的文件夹。</p>
+<p><img alt="" src="http://y.photo.qq.com/img?s=1oDx1GuDV&amp;l=y.jpg" /></p>
+<p> </p>
+<p>点击确定，IIS应用程序就建好了，我们可以看到在默认网站下多了这个应用程序，但是里面还什么都没有。</p>
+<p><img alt="" src="http://y.photo.qq.com/img?s=J1HAXiqcd&amp;l=y.jpg" /></p>
+<p> </p>
+</blockquote>
+<p dir="ltr">3. 建立服务文件</p>
+<blockquote dir="ltr" style="margin-right:0px;">
+<p dir="ltr">我们需要按照IIS宿主的要求建立几个文件放到IIS中才能承载起我们的服务，当然服务的相关信息也是描述在这些文件中的。</p>
+<p dir="ltr">(1) svc文件。</p>
+<p dir="ltr">svc就是service的意思了，我们需要首先建立一个XXX.svc的文件放到IIS应用程序目录下，这个文件是服务的入口，客户端需要这个文件的地址来访问服务(当然也包括原数据交换)。</p>
+<p dir="ltr">我们来手动建立这个文件，打开VS2010，选择文件菜单-&gt;新建-&gt;文件。在常规栏目中，选择一个文本文件，然后点击"打开"按钮。</p>
+<p dir="ltr"><img alt="" src="http://y.photo.qq.com/img?s=Q0PS0SmKH&amp;l=y.jpg" /></p>
+<p dir="ltr"> </p>
+<p dir="ltr">这应该是个svc文件，而不是.txt文件，所以我们另存一下，另存的时候要注意保存类型选为所有文件。我把这个文件起名为HelloWCFService.svc，这个名字可以随意起，这个名字也将成为服务地址的一部分。保存位置就是我们刚刚建立IIS应用程序的位置。</p>
+<p dir="ltr"><img alt="" src="http://y.photo.qq.com/img?s=hvmdapko6&amp;l=y.jpg" /></p>
+<p dir="ltr"> </p>
+<p dir="ltr">现在我们来编辑这个文件的内容，很简单，就只有一行代码。</p>
+<pre class="html">&lt;%@ServiceHost language=c# Debug="true" Service="LearnWCF.HelloWCFService"%&gt;</pre>
+<p dir="ltr">被&lt;%%&gt;框住的表示这个是一个服务器端包含，@ServiceHost 标签表示这是个WCF的服务，联想一下前两篇代码中的ServiceHost 对象。language=c# 表示我们用C#语言来写代码，Debug=true顾名思义了，最主要的是Service这个属性，他表示这个服务的实现类是什么，这里要用完全限定名，即要包括命名空间。我起了一个命名空间名LearnWCF，我们把服务定义都放在这个命名空间下，后面的HelloWCFService就是服务的实现类了。我们接下来要去完善这个类的内容。</p>
+<p dir="ltr">可以看出。.svc文件就相当于一个向导，帮我们在IIS宿主中找到服务的位置，具体的代码，我们可以写在另一个地方(其实也可以写在svc文件中，不推荐)。</p>
+<p dir="ltr"> </p>
+<p dir="ltr">把写的内容保存一下，我们继续前进。</p>
+<p dir="ltr">接下来我们要写这个定义服务的类文件了。但是在这之前，我们先为类文件建立一个存放的位置，IIS的代码文件应该存放在IIS应用程序目录的App_Code子目录下，所以我们先把这个文件夹建立起来。</p>
+<p dir="ltr"><img alt="" src="http://y.photo.qq.com/img?s=JwNThA7Jf&amp;l=y.jpg" /></p>
+<p dir="ltr">可以看到我们刚刚建立的HelloWCFService.svc已经被识别为WCF服务了。</p>
+<p dir="ltr"> </p>
+<p dir="ltr">(2) cs文件</p>
+<p dir="ltr">回到VS2010，还是文件-&gt;新建-&gt;文件，选择文本文件。</p>
+<p dir="ltr">这次我们要建立的是类文件，其名字为HelloWCFService.cs，注意另存为的时候要把保存类型选为所有文件，路径要选择我们刚建立的App_Code文件夹</p>
+<p dir="ltr">编写这个文件，我们在这里定义和实现服务协定，应该很熟悉吧，尝试着背着写下来吧。</p>
+<pre class="csharp">using System;
+using System.ServiceModel;
+
+namespace LearnWCF
+{
+    [ServiceContract]
+    public interface IHelloWCF
+    {
+        [OperationContract]
+        string HelloWCF();
+    }
+
+    public class HelloWCFService : IHelloWCF
+    {
+        public string HelloWCF()
+        {
+            return "Hello WCF!";
+        }
+    }
+}</pre>
+<p dir="ltr">这个代码应该很熟练的打出来，如果对这段代码还有什么不理解的地方，赶快翻回第一篇复习一下。</p>
+<p dir="ltr"> </p>
+<p dir="ltr">保存一下，我们继续前进</p>
+<p dir="ltr"> </p>
+<p dir="ltr">(3)web.config文件</p>
+<p dir="ltr">我们已经很清楚，还需要一个配置文件，在其中配置终结点、服务、行为等等的信息。这个配置文件和我们之前建立的大致相同。</p>
+<p dir="ltr">还是回到VS2010，还是新建一个文本文件，另存为web.config。这个文件名，是不能改的，保存路径是我们建立的IIS应用程序IISService的目录下(和svc保存在一起)</p>
+<p dir="ltr"><img alt="" src="http://y.photo.qq.com/img?s=JjalE5N9I&amp;l=y.jpg" /></p>
+<p dir="ltr">先把他写下来，再做说明：</p>
+<pre class="html">&lt;configuration&gt;
+  &lt;system.serviceModel&gt;
+    &lt;services&gt;
+      &lt;service name="LearnWCF.HelloWCFService" behaviorConfiguration="metadataExchange"&gt;
+        &lt;endpoint address="" binding="wsHttpBinding" contract="LearnWCF.IHelloWCF"/&gt;
+        &lt;endpoint address="mex" binding="mexHttpBinding" contract="IMetadataExchange"/&gt;
+      &lt;/service&gt;
+    &lt;/services&gt;
+    &lt;behaviors&gt;
+      &lt;serviceBehaviors&gt;
+        &lt;behavior name="metadataExchange"&gt;
+          &lt;serviceMetadata httpGetEnabled="true"/&gt;
+        &lt;/behavior&gt;
+      &lt;/serviceBehaviors&gt;
+    &lt;/behaviors&gt;
+  &lt;/system.serviceModel&gt;
+&lt;/configuration&gt;</pre>
+<p dir="ltr">这个配置文件和我们之前写的有一些不同之处：</p>
+<p dir="ltr">1) 配置文件的文件名为web.config，而不是app.config</p>
+<p dir="ltr">2) &lt;Service&gt;标签没有了基地址的描述，在IIS寄宿中，服务基地址是由IIS负责指定的。例如本例中服务的基地址为</p>
+<pre class="html">http://localhost/IISService/HelloWCFService.svc</pre>
+<p dir="ltr">3) 终结点的地址指定为了空，表示就使用服务基地址作为终结点地址，当然这里也可以指定一个相对地址，但是不能指定绝对地址，必须服从IIS指定的基地址。</p>
+<p dir="ltr">其他地方并没有什么区别，特别注意在指定服务实现类和协定接口类的时候一定要带上命名空间，这是一个非常容易犯的错误。</p>
+<p dir="ltr"> </p>
+<p dir="ltr">保存，大功告成</p>
+</blockquote>
+<p dir="ltr">4. 完成</p>
+<blockquote dir="ltr" style="margin-right:0px;">
+<p dir="ltr">到这里，在IIS中的寄宿就完成了，很简单，一个IIS应用程序，3个文件。当然这只是最简单的情况。</p>
+<p dir="ltr">至于运营服务，IIS都会为我们去做，只要IIS应用程序(或网站)在线，服务就在线运行。</p>
+<p dir="ltr">老办法，在浏览器里面看一下，是不是成功了。</p>
+<p dir="ltr">IIS寄宿的服务地址格式：</p>
+<pre class="html">http://机器名/IIS应用程序名/XXX.svc</pre>
+<p dir="ltr">所以我们这个例子的服务地址应该是：</p>
+<pre class="html">http://localhost/IISService/HelloWCFService.svc</pre>
+<p dir="ltr"><br />
+不出意外，情况如图</p>
+<p dir="ltr"><img alt="" src="http://y.photo.qq.com/img?s=DxGaHJ3d9&amp;l=y.jpg" /></p>
+<p dir="ltr">因为用IIS，所以系统自动给出了交换元数据的机器地址，而没有用localhost。</p>
+<p dir="ltr"> </p>
+</blockquote>
+<p dir="ltr">5. 总结。</p>
+<blockquote dir="ltr" style="margin-right:0px;">
+<p dir="ltr">这一篇我们学习了如何在IIS中寄宿WCF服务，必备的要素总结如下几点：</p>
+<p dir="ltr">(1) 建立IIS应用程序及物理路径</p>
+<p dir="ltr">(2) 在应用程序路径下建立XXX.svc文件用于声明WCF入口和服务地址导航</p>
+<p dir="ltr">(3) 在应用程序路径的子目录App_Code下建立XXX.cs文件用于定义和实现服务协定</p>
+<p dir="ltr">(4) 在应用程序路径下建立web.config 用于配置服务。</p>
+<p dir="ltr">(5) 保持IIS为启动状态。</p>
+<p dir="ltr"> </p>
+<p dir="ltr"> </p>
+<p dir="ltr"><br /><br /><br /><br /><br />
+ </p>
+</blockquote>
+<p> </p>
+<p> </p>
+<p> </p>
+                    </div>
+    </article>
+      <div class="readall_box csdn-tracking-statistics tracking-click" data-mod="popu_376">
+          <div class="read_more_mask"></div>
+          <a class="btn btn-large btn-gray-fred read_more_btn" target="_self">阅读全文</a>
+      </div>
+      <div class="article_copyright">
+              </div>
+      <ul class="article_collect clearfix csdn-tracking-statistics tracking-click"  data-mod="popu_378">
+          <li class="tit">本文已收录于以下专栏：</li>
+<!--          [startarticlecolumns]-->
+                                <!--          [endarticlecolumns]-->
+      </ul>
+      <div class="comment_box clearfix">
+          <div id="comment_form">
+              <div id="commentsbmitarear">
+                              </div>
+          </div>
+      </div>
+      <div class="comment_li_outbox">
+          <div id="comment_list"></div>
+      </div>
+
+      <div class="more_comment">
+          <div id="comment_bar" class="trackgin-ad" data-mod="popu_385"></div>
+      </div>
+
+      <h3 class="recommend_tit" id="related">相关文章推荐</h3>
+      <div class="recommend_list clearfix" id="rasss">
+                                                                                      <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/xunzaosiyecao/article/details/44118911"  target="_blank" strategy="BlogCommendFromBaidu_0">WCF 部署在IIS上</a></h2>
+                          <div class="summary">
+                              环境vs2010，WCF应用程序，server 2008
+第一步：WCF项目右键点击项目，选择生成部署包，如下图：
+
+
+
+第二步：WCF项目上右键，选择：在windows资源管理器中打开文件夹，如下图...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/xunzaosiyecao" target="_blank" strategy="BlogCommendFromBaidu_0"><img src="http://avatar.csdn.net/7/7/C/3_xunzaosiyecao.jpg" alt="xunzaosiyecao" title="xunzaosiyecao"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/xunzaosiyecao">xunzaosiyecao</a></li>
+                              <li class="time">2015年03月07日 19:52</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>7260</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/meng58/article/details/9236619"  target="_blank" strategy="BlogCommendFromBaidu_1">在IIS上部署WCF服务详细过程</a></h2>
+                          <div class="summary">
+                              1 新建项目-WCF-WCF服务应用程序
+然后选择该项目右健，点击生成（切记：项目一定要生成）
+2.开始发布服务：
+  打开Internet信息服务(IIS)管理器...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/meng58" target="_blank" strategy="BlogCommendFromBaidu_1"><img src="http://avatar.csdn.net/2/C/9/3_meng58.jpg" alt="meng58" title="meng58"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/meng58">meng58</a></li>
+                              <li class="time">2013年07月03日 23:00</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>4960</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                      <script>
+                      (function() {
+                          var s = "_" + Math.random().toString(36).slice(2);
+                          document.write('<div id="' + s + '"></div>');
+                          (window.slotbydup=window.slotbydup || []).push({
+                              id: '4765209',
+                              container: s,
+                              size: '808,120',
+                              display: 'inlay-fix'
+                          });
+                      })();
+                  </script>
+                                                                <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/vivitue/article/details/8333771"  target="_blank" strategy="BlogCommendFromBaidu_2">IIS站点中部署WCF项目 - C#</a></h2>
+                          <div class="summary">
+                              .................全书之写印,实系初稿...执笔木坐,草草而止..个中甘苦,只自知之....── 引 Artech .>.................━━━━━━━━━━━━━━━...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/vivitue" target="_blank" strategy="BlogCommendFromBaidu_2"><img src="http://avatar.csdn.net/C/1/8/3_vivitue.jpg" alt="vivitue" title="vivitue"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/vivitue">vivitue</a></li>
+                              <li class="time">2012年12月19日 22:30</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>8258</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/heyangyi_19940703/article/details/51831094"  target="_blank" strategy="BlogCommendFromBaidu_3">【创建WCF服务寄宿到IIS】</a></h2>
+                          <div class="summary">
+                              一.WCF简介：
+Windows Communication Foundation(WCF)是由微软开发的一系列支持数据通信的应用程序框架，可以翻译为Windows 通讯开发平台。
+整合了原有的win...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/heyangyi_19940703" target="_blank" strategy="BlogCommendFromBaidu_3"><img src="http://avatar.csdn.net/4/1/D/3_heyangyi_19940703.jpg" alt="heyangyi_19940703" title="heyangyi_19940703"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/heyangyi_19940703">heyangyi_19940703</a></li>
+                              <li class="time">2016年07月05日 14:40</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>1147</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/lucky51222/article/details/52228590"  target="_blank" strategy="BlogCommendFromBaidu_4">WCF服务寄宿IIS时.SVC文件无法浏览的解决办法</a></h2>
+                          <div class="summary">
+                              一、操作步骤：
+    （1）打开IIS，新建网站，选择物理路径
+    （2）打开IIS，在默认网站下添加应用程序，或者添加虚拟目录，然后转化为应用程序
+    （3）在内容试图中，右键Hello....                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/lucky51222" target="_blank" strategy="BlogCommendFromBaidu_4"><img src="http://avatar.csdn.net/9/4/A/3_lucky51222.jpg" alt="lucky51222" title="lucky51222"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/lucky51222">lucky51222</a></li>
+                              <li class="time">2016年08月17日 10:49</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>1944</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                        <!-- 广告位：PC端-博客详情通栏7（feed流）-808*120 -->
+                  <script>
+                      (function() {
+                          var s = "_" + Math.random().toString(36).slice(2);
+                          document.write('<div id="' + s + '"></div>');
+                          (window.slotbydup=window.slotbydup || []).push({
+                              id: '4983339',
+                              container: s,
+                              size: '808,120',
+                              display: 'inlay-fix'
+                          });
+                      })();
+                  </script>
+                                                                              <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/songyefei/article/details/7371571"  target="_blank" strategy="BlogCommendFromBaidu_5">[老老实实学WCF] 第二篇 配置WCF</a></h2>
+                          <div class="summary">
+                              老老实实学WCF
+第二篇 配置WCF
+ 
+在上一篇中，我们在一个控制台应用程序中编写了一个简单的WCF服务并承载了它。先回顾一下服务端的代码：
+ 
+using System;
+using ...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/songyefei" target="_blank" strategy="BlogCommendFromBaidu_5"><img src="http://avatar.csdn.net/E/C/E/3_songyefei.jpg" alt="songyefei" title="songyefei"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/songyefei">songyefei</a></li>
+                              <li class="time">2012年03月20日 06:45</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>9017</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/songyefei/article/details/7409607"  target="_blank" strategy="BlogCommendFromBaidu_6">[老老实实学WCF] 第十篇 消息通信模式(下) 双工</a></h2>
+                          <div class="summary">
+                              老老实实学WCF
+第十篇 消息通信模式(下) 双工
+ 
+在前一篇的学习中，我们了解了单向和请求/应答这两种消息通信模式。我们知道可以通过配置操作协定的IsOneWay属性来改变模式。在这一篇中我...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/songyefei" target="_blank" strategy="BlogCommendFromBaidu_6"><img src="http://avatar.csdn.net/E/C/E/3_songyefei.jpg" alt="songyefei" title="songyefei"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/songyefei">songyefei</a></li>
+                              <li class="time">2012年03月30日 07:35</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>11644</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/kasama1953/article/details/51638916"  target="_blank" strategy="BlogCommendFromCF_7">App.Config详解及读写操作</a></h2>
+                          <div class="summary">
+                              App.Config详解及读写操作
+
+
+
+
+
+
+
+
+App.Config详解及读写操作 - 大气象 - 博客园 http://greatverve.cnblogs.com/archi...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/kasama1953" target="_blank" strategy="BlogCommendFromCF_7"><img src="http://avatar.csdn.net/2/B/4/3_kasama1953.jpg" alt="kasama1953" title="kasama1953"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/kasama1953">kasama1953</a></li>
+                              <li class="time">2016年06月12日 00:21</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>6351</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/plean/article/details/8556125"  target="_blank" strategy="BlogCommendFromCF_8">CSDN第一期总结之三：Thread的问题</a></h2>
+                          <div class="summary">
+                              http://blog.csdn.net/knight94/article/details/1111267
+
+
+
+C#是一门支持多线程的语言，因此线程的使用也是比较常见的。由于线程的知识在Wi...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/plean" target="_blank" strategy="BlogCommendFromCF_8"><img src="http://avatar.csdn.net/6/C/F/3_plean.jpg" alt="plean" title="plean"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/plean">plean</a></li>
+                              <li class="time">2013年01月30日 14:27</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>336</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/anlun/article/details/44860833"  target="_blank" strategy="BlogCommendFromCsdn_9">[老老实实学WCF] 第三篇 在IIS中寄存服务</a></h2>
+                          <div class="summary">
+                              老老实实学WCF
+
+第三篇 在IIS中寄宿服务
+
+ 
+
+通过前两篇的学习，我们了解了如何搭建一个最简单的WCF通信模型，包括定义和实现服务协定、配置服务、寄宿服务、通过添加服务引用的方式配...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/anlun" target="_blank" strategy="BlogCommendFromCsdn_9"><img src="http://avatar.csdn.net/F/A/E/3_anlun.jpg" alt="anlun" title="anlun"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/anlun">anlun</a></li>
+                              <li class="time">2015年04月03日 22:16</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>586</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                    </div>
+  </main>
+<aside>
+  <div class="right_box user_info">
+      <dl class="inf_bar clearfix">
+          <dt class="csdn-tracking-statistics tracking-click" data-mod="popu_381">
+              <a href="http://blog.csdn.net/songyefei" target="_blank">
+                  <img src="http://avatar.csdn.net/E/C/E/3_songyefei.jpg" class="avatar_pic">
+              </a>
+              <span class="medals" title="">
+                  </span>
+          </dt>
+          <dd>
+              <h3 class="csdn-tracking-statistics tracking-click"  data-mod="popu_380"><a href="http://blog.csdn.net/songyefei" target="_blank" id="uid">songyefei</a></h3>
+              <span  class="csdn-tracking-statistics tracking-click" data-mod="popu_379"><a class="btn btn-redborder-small "  id="span_add_follow" target="_self">＋关注</a></span>
+          </dd>
+      </dl>
+      <div class="inf_number_box clearfix">
+          <dl>
+              <dt>原创</dt>
+              <dd>12</dd>
+          </dl>
+          <dl>
+              <dt>粉丝</dt>
+              <dd id='fan'>61</dd>
+          </dl>
+          <dl>
+              <dt>喜欢</dt>
+              <dd>1</dd>
+          </dl>
+          <dl>
+        <dt>码云</dt>
+        <dd>&nbsp;</dd>
+      </dl>
+
+      </div>
+  <div class="writings">
+        <div class="public_signal clearfix">
+          <h3>他的最新文章</h3>
+          <a href="http://blog.csdn.net/songyefei" target="_blank" class="more"><span>更多文章</span></a>
+        </div>
+          <ul class="inf_list clearfix csdn-tracking-statistics tracking-click" data-mod="popu_382">
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/songyefei/article/details/8104560" target="_blank">[ASP.Net MVC 类库探索] AcceptVerbsAttribute 类</a>
+              </li>
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/songyefei/article/details/7409607" target="_blank">[老老实实学WCF] 第十篇 消息通信模式(下) 双工</a>
+              </li>
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/songyefei/article/details/7409585" target="_blank">[老老实实学WCF] 第九篇 消息通信模式(上) 请求应答与单向</a>
+              </li>
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/songyefei/article/details/7405492" target="_blank">[老老实实学WCF] 第八篇 实例化</a>
+              </li>
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/songyefei/article/details/7401282" target="_blank">[老老实实学WCF] 第七篇 会话</a>
+              </li>
+                        </ul>
+      </div>
+  </div>
+    <div class="user-hotArticle">
+        <h3><a href="#related" >相关推荐</a></h3>
+        <ul class="hotArticle-list csdn-tracking-statistics tracking-click" data-mod="popu_563">
+<!--           [StartRelatedArticles]-->
+                                                <li>
+                        <a href="http://blog.csdn.net/xunzaosiyecao/article/details/44118911" target="_blank" strategy="BlogRightReleated_0">WCF 部署在IIS上</a>
+                                            </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/meng58/article/details/9236619" target="_blank" strategy="BlogRightReleated_1">在IIS上部署WCF服务详细过程</a>
+                                            </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/vivitue/article/details/8333771" target="_blank" strategy="BlogRightReleated_2">IIS站点中部署WCF项目 - C#</a>
+                                            </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/heyangyi_19940703/article/details/51831094" target="_blank" strategy="BlogRightReleated_3">【创建WCF服务寄宿到IIS】</a>
+                                            </li>
+                            <!--            [EndRelatedArticles]-->
+        </ul>
+    </div>
+  <div class="extension_other csdn-tracking-statistics tracking-click" data-mod="popu_389">
+     <!--u3032528-->
+    <div class="flashrecommend">
+        <script type="text/javascript" src="http://mpb1.iteye.com/bwocoltlyzdec.js"></script>
+    </div>
+  </div>
+
+<!--    [StartShowSelfColumn]-->
+    <!--    [EndShowSelfColumn]-->
+    <div class="fixRight">
+        <!-- 广告位：PC端-博客详情右侧视窗2（feed流）-300*300 -->
+        <script>
+            (function() {
+                var s = "_" + Math.random().toString(36).slice(2);
+                document.write('<div id="' + s + '"></div>');
+                (window.slotbydup=window.slotbydup || []).push({
+                    id: '5384130',
+                    container: s,
+                    size: '300,300',
+                    display: 'inlay-fix'
+                });
+            })();
+        </script>
+        <div class="extension_other csdn-tracking-statistics tracking-click bottomRcom" data-mod="popu_389" style="position:absolute;z-index:-5;opacity:0;pointer-events:none">
+            <!--u3032528-->
+            <div class="flashrecommend">
+                <!-- 请置于所有广告位代码之前 -->
+                <script src="http://dup.baidustatic.com/js/dm.js"></script>
+
+                <!-- 广告位：PC端-博客详情页右侧视窗1（feed流）-300*250 -->
+                <script>
+                    (function() {
+                        var s = "_" + Math.random().toString(36).slice(2);
+                        document.write('<div id="' + s + '"></div>');
+                        (window.slotbydup=window.slotbydup || []).push({
+                            id: '4770930',
+                            container: s,
+                            size: '300,250',
+                            display: 'inlay-fix'
+                        });
+                    })();
+                </script>
+            </div>
+        </div>
+
+    </div>
+    <div class="user-hotArticle">
+        <h3>他的热门文章</h3>
+        <ul class="hotArticle-list csdn-tracking-statistics tracking-click" data-mod="popu_521">
+<!--            [StartHotArticles]-->
+                                                <li>
+                        <a href="http://blog.csdn.net/songyefei/article/details/7363296">[老老实实学WCF] 第一篇 Hello WCF</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>20865</span></div>
+                    </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/songyefei/article/details/7385638">[老老实实学WCF] 第四篇 初探通信--ChannelFactory</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>17125</span></div>
+                    </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/songyefei/article/details/7381595">[老老实实学WCF] 第三篇 在IIS中寄存服务</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>12635</span></div>
+                    </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/songyefei/article/details/7409607">[老老实实学WCF] 第十篇 消息通信模式(下) 双工</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>11640</span></div>
+                    </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/songyefei/article/details/7371571">[老老实实学WCF] 第二篇 配置WCF</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>9015</span></div>
+                    </li>
+                            <!--            [EndHotArticles]-->
+        </ul>
+    </div>
+<!--    [startcustom]-->
+    <!--    [endcustom]-->
+</aside></div>
+
+<div class="left_fixed">
+    <div class="left_show_button">
+        <span>
+          <i class="icon iconfont icon-youjiantou"></i>
+        </span>
+    </div>
+    <ul class="left_menu">
+        <li>
+            <button class="left-fixed-btn btn-like csdn-tracking-statistics tracking-click" data-mod="popu_373" target="_self">
+                <a href="javascript:void(0);" class="iconbox border_red"><i class="icon iconfont icon-dianzan"></i></a>
+                <a class="txt" href="javascript:void(0);">10</a>
+            </button>
+        </li>
+        <li id="blog_artical_directory">
+            <button class="left-fixed-btn left_menu_btn csdn-tracking-statistics tracking-click" data-mod="popu_372" target="_self">
+                <a href="javascript:void(0);" class="iconbox border_black"><i class="icon iconfont icon-mulu"></i></a>
+            </button>
+        </li>
+        <li class="menu_con">
+            <div class="list_father">
+                <div class="arr_box">
+                    <button class="btn-noborder arr-btn scroll-down  left_scroll_down"><i class="icon iconfont icon-xiajiantou"></i></button>
+                    <button class="btn-noborder arr-btn scroll-up left_scroll_top"><i class="icon iconfont icon-shangjiantou"></i></button>
+                </div>
+                <div class="arr"></div>
+                <div id="csdnBlogDir"></div>
+            </div>
+        </li>
+        <!--        <li>-->
+        <!--            <button class="left-fixed-btn btn-like tracking-ad" data-mod="popu_373" target="_self">-->
+        <!--                <span class="iconbox border_red"><i class="icon iconfont icon-xihuan-"></i></span>-->
+        <!--                <span class="txt">喜欢</span>-->
+        <!--                <span class="untxt">取消喜欢</span>-->
+        <!--            </button>-->
+        <!--        </li>-->
+        <li>
+            <button class="left-fixed-btn csdn-tracking-statistics tracking-click" data-mod="popu_374"  id="com-quick-collect" target="_self">
+                <a href="javascript:void(0);" class="iconbox border_purple"><i class="icon iconfont icon-shoucang"></i></a>
+            </button>
+        </li>
+        <li>
+            <button class="left-fixed-btn btn-pinglun csdn-tracking-statistics tracking-click" data-mod="popu_544" >
+                <a href="javascript:void(0);" class="iconbox border_purple"><i class="icon iconfont icon-pinglun"></i></a>
+            </button>
+        </li>
+        <li id="share_box">
+            <button class="left-fixed-btn  csdn-tracking-statistics tracking-click"  data-mod="popu_375" target="_self">
+                <a href="javascript:void(0);" class="iconbox border_orange"><i class="icon iconfont icon-fenxiang"></i></a>
+            </button>
+            <div class="bdsharebuttonbox csdn-tracking-statistics tracking-click" data-mod="popu_172">
+                <div class="outside">
+                    <span class="iconbox border_red2"><i class="icon iconfont icon-xinlang"></i></span>
+                    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"> </a>
+                </div>
+                <div class="outside">
+                    <span class="iconbox border_green"><i class="icon iconfont icon-weixin"></i></span>
+                    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"> </a>
+                </div>
+                <div class="outside">
+                    <span class="iconbox border_blue"><i class="icon iconfont icon-QQ"></i></span>
+                    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"> </a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="right_fixed">
+    <div class="r_ico">
+        <i class="icon iconfont icon-jubao"></i>
+        <span class="txt" id="reportBtn">内容举报</span>
+    </div>
+    <div class="returnTop">
+        <i class="icon iconfont icon-fanhuidingbu"></i>
+        <span>返回顶部</span>
+    </div>
+</div>
+<div id="pop_win"></div>
+<div id="popup_mask"></div>
+<div class="pop_CA_cover" ></div>
+<div class="pop pop_CA" >
+    <div class="CA_header">
+        收藏助手
+        <span class="cancel_icon"  id="fapancle" ></span>
+    </div>
+    <iframe src="" id="collectIframe" frameborder="0" width="100%" height="360"  scrolling="no" ></iframe>
+</div>
+<!--举报-->
+<div id="report_dialog" style="top: 250px; left: 343.5px;"><div id="panel_report">
+    <div class="panel_head">不良信息举报</div>
+    <form method="post" id="frmReport" class="panel_body">
+        <table border="0" cellpadding="0" cellspacing="4" class="pop_table">
+            <tbody><tr><td colspan="2">您举报文章：<a href="http://blog.csdn.net/songyefei/article/details/7381595" target="_blank">[老老实实学WCF] 第三篇 在IIS中寄存服务</a></td></tr>
+            <tr>
+                <th style="width:60px;">举报原因：</th>
+                <td id="panel_reporttype">
+                    <label><input type="radio" class="report_type" id="report_sex" name="report_type" value="1">色情</label>
+                    <label><input type="radio" class="report_type" id="report_Politics" name="report_type" value="2">政治</label>
+                    <label><input type="radio" class="report_type" id="report_copy" name="report_type" value="3">抄袭</label>
+                    <label><input type="radio" class="report_type" id="report_ad" name="report_type" value="4">广告</label>
+                    <label><input type="radio" class="report_type" id="report_want" name="report_type" value="5">招聘</label>
+                    <label><input type="radio" class="report_type" id="report_call" name="report_type" value="6">骂人</label>
+                    <br>
+                    <label><input type="radio" class="report_type" id="report_other" name="report_type" value="7">其他</label>
+                    <input type="text" name="report_other_content" id="report_other_content" maxlength="30" style="display: none;">
+                </td>
+            </tr>
+            <tr id="panel_originalurl" style="display: none;">
+                <th>原文地址：</th>
+                <td>
+                    <input id="originalurl" value="http://" name="originalurl" type="text" style="width: 90%;">
+                </td>
+            </tr>
+            <tr>
+                <th id="sp_reason">原因补充：</th>
+                <td>
+                    <textarea id="report_description" style="width: 300px;" rows="3" name="report_description"></textarea>
+                    <p id="sp_n" style="color:#999;margin:0px;padding:0px;">(最多只允许输入30个字)</p>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input id="btnSubmitReport" name="submit" type="image" align="middle" class="btn_1" src="http://csdnimg.cn/release/phoenix/images/btn_submit.jpg">
+                    <span style="padding-left:20px;"></span>
+                    <img id="btnCloseReportDialog" src="http://csdnimg.cn/release/phoenix/images/btn_cancel.jpg" align="middle">
+                    <div id="error" style="color: Red">
+                    </div>
+                </td>
+            </tr>
+            </tbody></table>
+    </form>
+</div>
+    <script language="javascript" type="text/javascript">
+        var isComment=0;
+        //显示隐藏地址
+        $(function () {
+          console.log("version:phoenix");
+            if(isComment){
+                $("#report_description").attr("disabled",true);
+                $("#sp_n").hide();
+                $("#sp_reason").html("评论内容：");
+            }
+            $(".report_type").click(function () {
+                $("#panel_originalurl,#report_other_content").hide();
+                switch ($(this).val()) {
+                    case '3':
+                        $("#panel_originalurl").show();
+                        $("#originalurl").focus();
+                        break;
+                    case '7':
+                        if(isComment){
+                            $("#report_other_content").show().focus();
+                        }
+                        break;
+                }
+
+            });
+
+            $("#frmReport").submit(function () {
+                if (!currentUserName) {
+
+                    if (confirm("您的操作必须登录，是否登录？")) {
+                        location.href = "http://passport.csdn.net/account/login?from=" + encodeURIComponent(location.href);
+                        return false;
+                    }
+                    return false;
+                }
+
+                var reportType = $("input[name=report_type]:checked").val();
+                if(!reportType){
+                    alert("请选择举报原因！");
+                    return false;
+                }
+                var otherInfo = "";
+                switch (reportType) {
+                    case '3':
+                        otherInfo = $("#originalurl").val();
+                        if (otherInfo == ""||otherInfo=="http://") {
+                            alert("举报抄袭必须提供原创文章地址！");
+                            $("#originalurl").focus();
+                            return false;
+                        } else if(!checkeURL(otherInfo)) {
+                            alert("请输入正确的原创文章地址！");
+                            $("#originalurl").focus();
+                            return false;
+                        }
+                        break;
+                    case '7':
+                        otherInfo = $("#report_other_content").val();
+                        if (isComment && !otherInfo) {
+                            alert("请填写举报的具体原因！");
+                            $("#report_other_content").focus();
+                            return false;
+                        }
+                        if(!isComment){
+                            if(!$("#report_description").val()){
+                                alert("请填写举报的具体原因！");
+                                $("#report_description").focus();
+                                return false;
+                            }
+                        }
+                        break;
+                }
+                if(!isComment){
+                    if($("#report_description").val().length>30){
+                        alert("举报原因最多只允许输入30个字！");
+                        return false;
+                    }
+                }
+	            nowTime = {
+		            year: new Date().getFullYear(),
+		            month: parseInt(new Date().getMonth())+1,
+		            day: new Date().getDate(),
+		            hours: parseInt(new Date().getHours())+1,
+		            minutes: parseInt(new Date().getMinutes())+1,
+		            seconds: parseInt(new Date().getSeconds())+1
+	            };
+	            var data = {
+		            articleId: fileName,
+		            commentId: 0,
+		            reportType: reportType,
+		            originalurl: $("#originalurl").val(),
+		            report_other_content: $("#report_other_content").val(),
+		            report_description: $("#report_description").val(),
+		            currentUserName: currentUserName,
+		            updatetime: nowTime.year+'/'+nowTime.month+'/'+nowTime.day+' '+ nowTime.hours+':'+nowTime.minutes+':'+seconds,
+		            blogUser: username
+	            };
+	            if(!isComment){//如果是举报文章
+		            data.report_other_content = data.report_description;
+		            // data.report_description = "1. 神经网络这是一个常见的神经网络的图：这是一个常见的三层神经网络的基本构成，Layer L1是输入层，Layer L2是隐含层";
+	            }
+
+	            $.post(blog_address + "/common/report?id="+fileName+"&t=2", data, function (data) {
+		            if (data.result == 1){
+			            SetError("感谢您的举报，我们会尽快审核！");
+		            }else{
+			            if (data.content) alert(data.content);
+		            }
+
+	            });
+                return false;
+            });
+
+            $("#btnCloseReportDialog").click(function () {
+                CloseDiv();
+            });
+
+        });
+
+        //提示后关闭方法
+        function SetError(error) {
+            $("#btnCloseReportDialog").trigger("click");
+            alert(error);
+            CloseDiv();
+        }
+
+        //关闭方法
+        function CloseDiv() {
+
+            $.removeMask();
+            $("#report_dialog").hide();
+            return false;
+        }
+
+        //验证url
+        function checkeURL(url){
+            return /^http(s)?:\/\/([\w-]+\.)+[\w-]+/i.test(url);
+        }
+    </script>
+</div>
+<!--  fixme 后期清理掉  -->
+<div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+    <script id="adJs52b5334"></script>
+    <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+</div>
+<script src="http://c.csdnimg.cn/public/common/libs/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://csdnimg.cn/release/phoenix/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
+<!-- <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script> -->
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<script type="text/javascript" >
+    if($(".article_collect li").length==1){$(".article_collect").hide();}
+    if($(".article_tags li").length==1){$(".article_tags").hide();}
+    $(".edit a").attr("href","http://write.blog.csdn.net/postedit/"+fileName);
+    $.each($(".edu_li a"),function(){$(this).attr("href",$(this).attr("href").replace("blog7","blog9"))});
+    new CNick('#uid').showNickname();
+
+    if($("#fan").html()=="")
+    {
+	    $("#fan").html(0);
+    }
+</script>
+<script src="http://c.csdnimg.cn/public/common/append_mark/appendMark.min.js?v=5.00.43" type="text/javascript"></script>
+<script type="text/javascript">
+    appendMark($('.recommend_list').children('a').find('dt'),$('.extension_other'))
+</script>
+<div class=""id="loginWrap"></div>
+<div class="" id="dlMask"></div>
+</body>
