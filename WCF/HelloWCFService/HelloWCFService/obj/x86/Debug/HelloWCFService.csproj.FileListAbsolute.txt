@@ -1,4 +1,0 @@
-C:\Users\Administrator\Desktop\TEMP\HelloWCFService\HelloWCFService\bin\Debug\HelloWCFService.exe
-C:\Users\Administrator\Desktop\TEMP\HelloWCFService\HelloWCFService\bin\Debug\HelloWCFService.pdb
-C:\Users\Administrator\Desktop\TEMP\HelloWCFService\HelloWCFService\obj\x86\Debug\HelloWCFService.exe
-C:\Users\Administrator\Desktop\TEMP\HelloWCFService\HelloWCFService\obj\x86\Debug\HelloWCFService.pdb
